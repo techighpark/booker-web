@@ -1,0 +1,146 @@
+import styled from "styled-components";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBookmark as fasBookmark } from "@fortawesome/free-solid-svg-icons";
+import { faBookmark } from "@fortawesome/free-regular-svg-icons";
+import { gql, useMutation } from "@apollo/client";
+import useUser from "../../hook/useUser";
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 80px;
+`;
+
+const Follower = styled.div`
+  font-weight: 600;
+  margin-bottom: 10px;
+`;
+const FollowBtn = styled.div`
+  margin-bottom: 10px;
+  color: ${props => (props.isFollowing ? props.theme.secondary.bgColor : "")};
+  opacity: 1;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const FOLLOW_AUTHOR = gql`
+  mutation followAuthor($authorId: Int!) {
+    followAuthor(authorId: $authorId) {
+      ok
+      error
+    }
+  }
+`;
+const UNFOLLOW_AUTHOR = gql`
+  mutation unfollowAuthor($authorId: Int!) {
+    unfollowAuthor(authorId: $authorId) {
+      ok
+      error
+    }
+  }
+`;
+
+export const FollowAuthor = ({
+  loggedInUser,
+  id: authorId,
+  totalFollower,
+  isFollowing,
+  fullName,
+}) => {
+  const parsedBookId = parseInt(authorId);
+  const fragmentId = `Author:${fullName}`;
+  const fragment = gql`
+    fragment AuthorFollow on Author {
+      totalFollower
+      isFollowing
+    }
+  `;
+  const usernameId = loggedInUser?.me?.username;
+
+  const updateFollowAuthorMutation = (cache, result) => {
+    const {
+      data: {
+        followAuthor: { ok },
+      },
+    } = result;
+    if (ok) {
+      cache.writeFragment({
+        id: fragmentId,
+        fragment,
+        data: {
+          isFollowing: !isFollowing,
+          totalFollower: totalFollower + 1,
+        },
+      });
+      const authorRef = cache.readFragment({
+        id: fragmentId,
+        fragment,
+      });
+      cache.modify({
+        id: `User:${usernameId}`,
+        fields: {
+          totalFollowingAuthor(prev) {
+            return prev + 1;
+          },
+          followingAuthor(prev) {
+            return [authorRef, ...prev];
+          },
+        },
+      });
+    }
+  };
+
+  const updateUnfollowAuthorMutation = (cache, result) => {
+    const {
+      data: {
+        unfollowAuthor: { ok },
+      },
+    } = result;
+    if (ok) {
+      cache.writeFragment({
+        id: fragmentId,
+        fragment,
+        data: {
+          isFollowing: !isFollowing,
+          totalFollower: totalFollower - 1,
+        },
+      });
+      cache.modify({
+        id: `User:${usernameId}`,
+        fields: {
+          totalFollowingAuthor(prev) {
+            return prev - 1;
+          },
+          followingAuthor(prev) {
+            const next = prev.filter(ref => `Author:${fullName}` !== ref.__ref);
+            return next;
+          },
+        },
+      });
+    }
+  };
+  const [followBookMutation] = useMutation(FOLLOW_AUTHOR, {
+    variables: { authorId: parsedBookId },
+    update: updateFollowAuthorMutation,
+  });
+
+  const [unfollowBookMutation] = useMutation(UNFOLLOW_AUTHOR, {
+    variables: { authorId: parsedBookId },
+    update: updateUnfollowAuthorMutation,
+  });
+  return (
+    <Container>
+      <Follower> Followers {totalFollower}</Follower>
+      <FollowBtn
+        isFollowing={isFollowing}
+        onClick={isFollowing ? unfollowBookMutation : followBookMutation}
+      >
+        <FontAwesomeIcon
+          icon={isFollowing ? fasBookmark : faBookmark}
+          size={"1x"}
+        />
+      </FollowBtn>
+    </Container>
+  );
+};
