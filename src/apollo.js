@@ -37,7 +37,7 @@ export const userLogIn = token => {
 
 export const userLogOut = () => {
   localStorage.removeItem(TOKEN);
-  window.location.replace("/");
+  window.location.reload();
   // navigate("/", { replace: true });
 };
 

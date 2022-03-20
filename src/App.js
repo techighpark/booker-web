@@ -12,6 +12,7 @@ import { UserProfile } from "./screen/UserProfile";
 import { SearchResult } from "./screen/SearchResult";
 import { EditUserProfile } from "./screen/EditUserProfile";
 import { Test } from "./screen/Test";
+import { UploadPost } from "./screen/UploadPost";
 
 function App() {
   const themeMode = useReactiveVar(themeModeVar);
@@ -24,12 +25,12 @@ function App() {
           <Route path="/" element={isLoggedIn ? <Home /> : <Login />} />
           <Route path="/test" element={<Test />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/user/:username" element={<UserProfile />} />
           <Route path="/author/:fullName" element={<AuthorProfile />} />
           <Route path="/book/:id" element={<BookProfile />} />
-          <Route path="/user/:username" element={<UserProfile />} />
           <Route path="/account/edit" element={<EditUserProfile />} />
+          <Route path="/account/upload" element={<UploadPost />} />
           <Route path="/search/result" element={<SearchResult />} />
-          {/* <Route path="/hashtags/:hashtag" element={<EditUserProfile />} /> */}
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

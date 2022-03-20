@@ -5,7 +5,7 @@ import { Post } from "../component/Feed/Post";
 
 const Container = styled.div``;
 
-const SEE_FEED_QUERY = gql`
+export const SEE_FEED_QUERY = gql`
   query seeFeed {
     seeFeed {
       id

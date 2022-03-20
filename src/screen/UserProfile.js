@@ -7,8 +7,9 @@ import { PostTab } from "../component/User/PostTab";
 import { AuthorTab } from "../component/User/AuthorTab";
 import { BookTab } from "../component/User/BookTab";
 import { CAvatar } from "../component/Shared/CAvatar";
-import { CUsername } from "../component/Shared/SUsername";
+import { CUsername } from "../component/Shared/CUsername";
 import { CTabButton } from "../component/User/CTabButton";
+import { FollowUSerBtn } from "../component/User/FollowUserBtn";
 
 const SEE_PROFILE_QUERY = gql`
   query seeProfile($username: String!) {
@@ -112,7 +113,7 @@ const Button = styled.span`
   height: 100%;
 `;
 
-const LinkText = styled.div`
+const EditProfileBtn = styled.div`
   width: 100px;
   height: 25px;
   line-height: 25px;
@@ -122,6 +123,7 @@ const LinkText = styled.div`
   font-size: 14px;
   font-weight: 600;
   border-radius: 3px;
+  cursor: pointer;
   &:hover {
     background-color: ${props => props.theme.link.accent.hoverFontColor};
     color: ${props => props.theme.button.accent.fontColor};
@@ -158,10 +160,14 @@ export const UserProfile = () => {
             <Button>
               {data?.seeProfile?.isMe ? (
                 <Link to={"/account/edit"}>
-                  <LinkText>Edit Profile</LinkText>
+                  <EditProfileBtn>Edit Profile</EditProfileBtn>
                 </Link>
               ) : (
-                "follow"
+                <FollowUSerBtn
+                  userId={data?.seeProfile?.id}
+                  username={data?.seeProfile?.username}
+                  isFollowing={data?.seeProfile?.isFollowing}
+                />
               )}
             </Button>
           </Row>

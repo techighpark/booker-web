@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookmark as fasBookmark } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import { gql, useMutation } from "@apollo/client";
-import useUser from "../../hook/useUser";
 
 const Container = styled.div`
   display: flex;
@@ -49,6 +48,7 @@ export const FollowAuthor = ({
   fullName,
 }) => {
   const parsedBookId = parseInt(authorId);
+  const cacheUsername = loggedInUser?.me?.username;
   const fragmentId = `Author:${fullName}`;
   const fragment = gql`
     fragment AuthorFollow on Author {
@@ -56,7 +56,6 @@ export const FollowAuthor = ({
       isFollowing
     }
   `;
-  const usernameId = loggedInUser?.me?.username;
 
   const updateFollowAuthorMutation = (cache, result) => {
     const {
@@ -65,7 +64,7 @@ export const FollowAuthor = ({
       },
     } = result;
     if (ok) {
-      cache.writeFragment({
+      const authorRef = cache.writeFragment({
         id: fragmentId,
         fragment,
         data: {
@@ -73,12 +72,9 @@ export const FollowAuthor = ({
           totalFollower: totalFollower + 1,
         },
       });
-      const authorRef = cache.readFragment({
-        id: fragmentId,
-        fragment,
-      });
+
       cache.modify({
-        id: `User:${usernameId}`,
+        id: `User:${cacheUsername}`,
         fields: {
           totalFollowingAuthor(prev) {
             return prev + 1;
@@ -98,16 +94,19 @@ export const FollowAuthor = ({
       },
     } = result;
     if (ok) {
-      cache.writeFragment({
+      cache.modify({
         id: fragmentId,
-        fragment,
-        data: {
-          isFollowing: !isFollowing,
-          totalFollower: totalFollower - 1,
+        fields: {
+          isFollowing(prev) {
+            return !prev;
+          },
+          totalFollower(prev) {
+            return prev - 1;
+          },
         },
       });
       cache.modify({
-        id: `User:${usernameId}`,
+        id: `User:${cacheUsername}`,
         fields: {
           totalFollowingAuthor(prev) {
             return prev - 1;

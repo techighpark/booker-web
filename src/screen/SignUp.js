@@ -1,8 +1,6 @@
-import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { gql, useMutation } from "@apollo/client";
 import { useForm } from "react-hook-form";
-import styled from "styled-components";
 import {
   SAuthInput,
   SAuthInputColumn,
@@ -60,7 +58,6 @@ export const SignUp = () => {
   const [createAccountMutation, { loading }] = useMutation(CREATE_ACCOUNT, {
     onCompleted,
   });
-  useEffect(() => {});
 
   return (
     <CAuthLayout>

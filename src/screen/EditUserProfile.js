@@ -7,7 +7,8 @@ import useUser from "../hook/useUser";
 import { SSubmitBtn } from "../component/Button/SSubmitBtn";
 import { ErrorMessage } from "../component/Shared/ErrorMessage";
 import { CAvatar } from "../component/Shared/CAvatar";
-import { CUsername } from "../component/Shared/SUsername";
+import { CUsername } from "../component/Shared/CUsername";
+import { useNavigate } from "react-router-dom";
 
 const SEE_PROFILE_QUERY = gql`
   query seeProfile($username: String!) {
@@ -82,11 +83,24 @@ const EditErrorMessage = styled(ErrorMessage).attrs({ as: "span" })`
 export const EditUserProfile = () => {
   const [selectedAvatar, setSeletectedAvatar] = useState("");
   const { data: userData } = useUser();
+  const navigate = useNavigate();
+  console.log(userData);
+
+  const {
+    register,
+    setValue,
+    handleSubmit,
+    setError,
+    clearErrors,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+  });
   const { data: queryData, loading } = useQuery(SEE_PROFILE_QUERY, {
     variables: { username: userData?.me?.username },
   });
   const onCompleted = data => {
-    window.location.reload();
+    navigate(`/user/${userData?.me?.username}`);
   };
   const onValidSubmit = data => {
     const { username, email, bio, password, passwordCheck, avatar } = data;
@@ -97,19 +111,8 @@ export const EditUserProfile = () => {
       variables: { username, email, bio, password, avatar: avatar[0] },
     });
   };
-
   const [editProfileMutation] = useMutation(EDIT_PROFILE_MUTATION, {
     onCompleted,
-  });
-  const {
-    register,
-    setValue,
-    handleSubmit,
-    setError,
-    clearErrors,
-    formState: { errors },
-  } = useForm({
-    mode: "onChange",
   });
 
   const clearPasswordErrors = () => {
@@ -121,6 +124,7 @@ export const EditUserProfile = () => {
     setValue("email", queryData?.seeProfile?.email);
     setValue("bio", queryData?.seeProfile?.bio);
   }, [loading]);
+
   const onChange = e => {
     const {
       target: {

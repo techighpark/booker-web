@@ -23,30 +23,30 @@ const SearchUser = styled.li`
   border-radius: 5px;
 `;
 
-const SEARCH_QUERY = gql`
-  query searchAll($keyword: String!) {
-    searchAll(keyword: $keyword) {
-      users {
-        username
-        avatar
-      }
-      authors {
-        fullName
-        photoProfile
-      }
-      books {
-        title
-        bookCover
-        author {
-          fullName
-        }
-      }
-      hashtags {
-        hashtag
-      }
-    }
-  }
-`;
+// const SEARCH_QUERY = gql`
+//   query searchAll($keyword: String!) {
+//     searchAll(keyword: $keyword) {
+//       users {
+//         username
+//         avatar
+//       }
+//       authors {
+//         fullName
+//         photoProfile
+//       }
+//       books {
+//         title
+//         bookCover
+//         author {
+//           fullName
+//         }
+//       }
+//       hashtags {
+//         hashtag
+//       }
+//     }
+//   }
+// `;
 
 export const Search = () => {
   const navigate = useNavigate();
@@ -59,45 +59,33 @@ export const Search = () => {
   } = useForm({
     mode: "onSubmit",
   });
-  const onCompleted = data => {
-    const { searchAll } = data;
-    if (searchAll.length === 0) {
-      setError("result", { message: "There is no nonono result." });
-    }
-  };
+  // const onCompleted = data => {
+  //   const { searchAll } = data;
+  //   console.log("??");
+  //   if (searchAll.length === 0) {
+  //     setError("result", { message: "There is no nonono result." });
+  //   }
+  // };
   const onValidKeyUp = data => {
-    const { keyword } = data;
-    if (keyword) {
-      searchUserQuery({ variables: { keyword } });
-    }
+    // const { keyword } = data;
+    // if (keyword) {
+    //   searchUserQuery({ variables: { keyword } });
+    // }
   };
   const onValidSubmit = data => {
-    const { searchAll } = searchData;
-    navigate("/search/result", { state: searchAll });
+    const { keyword } = data;
+    if (keyword) {
+      navigate("/search/result", { state: { keyword } });
+    }
   };
+
   const clearResultError = () => {
     clearErrors("result");
   };
-  const [searchUserQuery, { data: searchData }] = useLazyQuery(SEARCH_QUERY, {
-    onCompleted,
-  });
 
-  let userList,
-    authorList,
-    bookList,
-    hashtagList = null;
-  userList = searchData?.searchAll?.users?.map(user => {
-    return user;
-  });
-  authorList = searchData?.searchAll?.authors?.map(author => {
-    return author;
-  });
-  bookList = searchData?.searchAll?.books?.map(book => {
-    return book;
-  });
-  hashtagList = searchData?.searchAll?.hashtags?.map(hashtag => {
-    return hashtag;
-  });
+  // const [searchUserQuery, { data: searchData }] = useLazyQuery(SEARCH_QUERY, {
+  //   // onCompleted,
+  // });
 
   return (
     <Container>

@@ -5,9 +5,14 @@ import styled from "styled-components";
 import { onDarkMode, onLightMode, themeModeVar } from "../../apollo";
 
 const ModeBtn = styled.div`
-  text-align: center;
-  padding: 5px;
-  cursor: pointer;
+  color: ${props => props.theme.button.fontColor};
+  margin: 0px 20px;
+  svg {
+    cursor: pointer;
+    &:hover {
+      color: ${props => props.theme.button.accent.fontColor};
+    }
+  }
 `;
 
 export const ThemeModeBtn = () => {

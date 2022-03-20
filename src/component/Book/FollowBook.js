@@ -1,12 +1,8 @@
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBookmark as fasBookmark,
-  faBookReader,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBookmark as fasBookmark } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import { gql, useMutation } from "@apollo/client";
-import useUser from "../../hook/useUser";
 
 const Container = styled.div`
   display: flex;
@@ -52,7 +48,14 @@ export const FollowBook = ({
   title,
 }) => {
   const parsedBookId = parseInt(bookId);
-  const usernameId = loggedInUser?.me?.username;
+  const cacheUsername = loggedInUser?.me?.username;
+  const fragmentId = `Book:${title}`;
+  const fragment = gql`
+    fragment BookFollow on Book {
+      totalFollower
+      isFollowing
+    }
+  `;
 
   const updateFollowBookMutation = (cache, result) => {
     const {
@@ -61,30 +64,17 @@ export const FollowBook = ({
       },
     } = result;
     if (ok) {
-      cache.modify({
-        id: `Book:${title}`,
-        fields: {
-          isFollowing(prev) {
-            return !prev;
-          },
-          totalFollower(prev) {
-            return prev + 1;
-          },
+      const newBookRef = cache.writeFragment({
+        id: fragmentId,
+        fragment,
+        data: {
+          isFollowing: !isFollowing,
+          totalFollower: totalFollower + 1,
         },
       });
 
-      const newBookRef = cache.readFragment({
-        id: `Book:${title}`,
-        fragment: gql`
-          fragment BookFollow on Book {
-            totalFollower
-            isFollowing
-          }
-        `,
-      });
-
       cache.modify({
-        id: `User:${usernameId}`,
+        id: `User:${cacheUsername}`,
         fields: {
           totalFollowingBook(prev) {
             return prev + 1;
@@ -105,7 +95,7 @@ export const FollowBook = ({
     } = result;
     if (ok) {
       cache.modify({
-        id: `Book:${title}`,
+        id: fragmentId,
         fields: {
           isFollowing(prev) {
             return !prev;
@@ -117,7 +107,7 @@ export const FollowBook = ({
       });
 
       cache.modify({
-        id: `User:${usernameId}`,
+        id: `User:${cacheUsername}`,
         fields: {
           totalFollowingBook(prev) {
             return prev - 1;

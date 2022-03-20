@@ -1,23 +1,35 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-const Container = styled.div`
-  display: flex;
-  margin-right: 10px;
-`;
+const getFontSize = itemSize => {
+  if (itemSize === "lg") {
+    return "30px";
+  } else if (itemSize === "s") {
+    return "16px";
+  } else if (itemSize === "xs") {
+    return "12px";
+  }
+};
+const getFontWeight = itemSize => {
+  if (itemSize === "lg") {
+    return "700";
+  } else if (itemSize === "s") {
+    return "600";
+  } else if (itemSize === "xs") {
+    return "500";
+  }
+};
+
 const Item = styled.div`
-  font-weight: 600;
-  color: ${props => props.theme.primary.fontColor};
+  font-size: ${props => getFontSize(props.itemSize)};
+  font-weight: ${props => getFontWeight(props.itemSize)};
   margin-left: 5px;
 `;
 
-export const CItemLink = ({ url, text, book }) => {
+export const CItemLink = ({ url, text, itemSize, book }) => {
   return (
-    <Container>
-      {book ? "Title_" : "Author_"}
-      <Link to={`/${book ? "book" : "author"}/${url}`}>
-        <Item>{text}</Item>
-      </Link>
-    </Container>
+    <Link to={`/${book ? "book" : "author"}/${url}`}>
+      <Item itemSize={itemSize}>{text}</Item>
+    </Link>
   );
 };

@@ -8,7 +8,7 @@ import { CAvatar } from "../Shared/CAvatar";
 import { SharedBox } from "../Shared/SharedBox";
 import { Comments } from "./Comments";
 import { Link } from "react-router-dom";
-import { CUsername } from "../Shared/SUsername";
+import { CUsername } from "../Shared/CUsername";
 
 const PostHeader = styled.div`
   margin: 15px 0px;
@@ -24,6 +24,11 @@ const BookAuthorContainer = styled.div`
   margin-top: 15px;
   font-size: 12px;
   color: ${props => props.theme.secondary.fontColor};
+`;
+const ItemContainer = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
 `;
 const PostBottom = styled.div`
   margin: 15px;
@@ -125,8 +130,18 @@ export const Post = ({
           <CUsername username={user.username} />
         </UserContainer>
         <BookAuthorContainer>
-          <CItemLink url={book.id} text={book.title} book />
-          <CItemLink url={book.author.fullName} text={book.author.fullName} />
+          <ItemContainer>
+            title_
+            <CItemLink url={book.id} text={book.title} book itemSize={"xs"} />
+          </ItemContainer>
+          <ItemContainer>
+            author_
+            <CItemLink
+              url={book.author.fullName}
+              text={book.author.fullName}
+              itemSize={"xs"}
+            />
+          </ItemContainer>
         </BookAuthorContainer>
       </PostHeader>
       <Photo src={photo} />

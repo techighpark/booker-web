@@ -7,10 +7,11 @@ import { CAvatar } from "./CAvatar";
 import { ThemeModeBtn } from "../Button/ThemeModeBtn";
 import { Search } from "../Search";
 import { CLogOutBtn } from "../Button/CLogOutBtn";
+import { CUploadBtn } from "../Button/CUploadBtn";
+import { useState } from "react";
 
 const Container = styled.div`
   display: flex;
-  align-items: center;
   justify-content: space-between;
   width: 1000px;
   padding: 30px 0px;
@@ -26,26 +27,34 @@ const HeaderAppName = styled(SAppTitle)`
   margin: 0;
 `;
 
-export const Header = () => {
-  const isLoggedIn = loggedInVar();
-  const { data } = useUser();
+const UserContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
+export const Header = () => {
+  const { data } = useUser();
   return (
     <Container>
       <Column>
         <HeaderAppName>
           <Link to={"/"}>Booker</Link>
         </HeaderAppName>
-        {data === undefined ? null : (
-          <Link to={`/user/${data?.me?.username}`}>
-            <CAvatar url={data?.me?.avatar} avatarSize={"s"} />
-          </Link>
-        )}
-      </Column>
-      {data === undefined || data === null ? null : <Search />}
-      <Column>
         <ThemeModeBtn />
-        {isLoggedIn ? <CLogOutBtn /> : null}
+      </Column>
+      <Column>
+        {data?.me === undefined || data?.me === null ? null : <Search />}
+      </Column>
+      <Column>
+        {data?.me === undefined || data?.me === null ? null : (
+          <UserContainer>
+            <CUploadBtn />
+            <CLogOutBtn />
+            <Link to={`/user/${data?.me?.username}`}>
+              <CAvatar url={data?.me?.avatar} avatarSize={"s"} />
+            </Link>
+          </UserContainer>
+        )}
       </Column>
     </Container>
   );
