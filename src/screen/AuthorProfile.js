@@ -1,8 +1,8 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { FollowAuthor } from "../component/Author/FollowAuthor";
-import { LikeAuthor } from "../component/Author/LikeAuthor";
+import { FollowAuthorBtn } from "../component/Author/FollowAuthorBtn";
+import { LikeAuthorBtn } from "../component/Author/LikeAuthorBtn";
 import { LayoutP } from "../component/Shared/LayoutP";
 import { SharedBox } from "../component/Shared/SharedBox";
 import useUser from "../hook/useUser";
@@ -51,6 +51,16 @@ const AuthorInfo = styled.div`
   margin-top: 40px;
   margin-bottom: 30px;
 `;
+
+const ActionContainer = styled.div``;
+const Follower = styled.div`
+  font-weight: 600;
+  margin-bottom: 10px;
+`;
+const Likes = styled.div`
+  font-weight: 600;
+  margin-bottom: 10px;
+`;
 const TotalBooks = styled.div``;
 
 export const AuthorProfile = () => {
@@ -64,14 +74,24 @@ export const AuthorProfile = () => {
         <FullName>{data?.seeAuthor?.fullName}</FullName>
         <AuthorInfo>
           <TotalBooks>Total Books {data?.seeAuthor?.totalBooks}</TotalBooks>
-          <FollowAuthor loggedInUser={userData} {...data?.seeAuthor} />
-          <LikeAuthor loggedInUser={userData} {...data?.seeAuthor} />
+          <ActionContainer>
+            <Follower> Followers {data?.seeAuthor?.totalFollower}</Follower>
+            <FollowAuthorBtn loggedInUser={userData} {...data?.seeAuthor} />
+          </ActionContainer>
+          <ActionContainer>
+            <Likes>Likes {data?.seeAuthor?.totalLikes}</Likes>
+            <LikeAuthorBtn loggedInUser={userData} {...data?.seeAuthor} />
+          </ActionContainer>
         </AuthorInfo>
         <div>
           {data?.seeAuthor?.books?.map(book => (
             <div key={book.id}>
               {book.title}
-              <img src={book.bookCover} width={"300px"}></img>
+              <img
+                src={book.bookCover}
+                width={"300px"}
+                alt={book.bookCover}
+              ></img>
             </div>
           ))}
         </div>

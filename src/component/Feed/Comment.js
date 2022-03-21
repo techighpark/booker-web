@@ -2,8 +2,8 @@ import { gql, useMutation } from "@apollo/client";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { CHashtagLink } from "../Link/CHashtagLink";
 import { CUsername } from "../Shared/CUsername";
 
 const CommentContainer = styled.div`
@@ -70,6 +70,7 @@ export const Comment = ({ commentId, postId, author, payload, isMine }) => {
     variables: { commentId },
     update: deleteCommentUpdate,
   });
+
   return (
     <CommentContainer>
       <Column>
@@ -78,7 +79,7 @@ export const Comment = ({ commentId, postId, author, payload, isMine }) => {
           {payload.split(/(?=#| )/g).map((word, index) =>
             /#[\w]+/.test(word) ? (
               <React.Fragment key={index}>
-                <Link to={`/hashtag/${word}`}>{word}</Link>{" "}
+                <CHashtagLink hashtag={word} />
               </React.Fragment>
             ) : (
               <React.Fragment key={index}>{word} </React.Fragment>

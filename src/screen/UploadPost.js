@@ -10,6 +10,15 @@ import { useNavigate } from "react-router-dom";
 import useUser from "../hook/useUser";
 import { POST_FRAGMENT } from "../fragment";
 
+const Title = styled.div`
+  text-align: center;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+`;
+
 const ContainerName = styled.div`
   width: 150px;
 `;
@@ -138,7 +147,6 @@ export const UploadPost = () => {
           },
         },
       });
-
       cache.modify({
         id: `ROOT_QUERY`,
         fields: {
@@ -200,6 +208,7 @@ export const UploadPost = () => {
 
   return (
     <LayoutP>
+      <Title>Upload Your Post</Title>
       <ErrorMessage hasError={errors?.result}>
         {errors?.result?.message}
       </ErrorMessage>

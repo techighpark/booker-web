@@ -1,7 +1,6 @@
-import { gql, useQuery, useReactiveVar } from "@apollo/client";
+import { useReactiveVar } from "@apollo/client";
 import { faComment, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { popUpIdVar, popUpVar } from "../../apollo";
 import { PopupPost } from "./PopupPost";
@@ -11,13 +10,13 @@ const Container = styled.div`
 `;
 const Grid = styled.div`
   display: grid;
-  grid-auto-rows: 290px;
+  grid-auto-rows: 20em;
   grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  margin: 50px;
+  gap: 20px;
 `;
 const Photo = styled.div`
   position: relative;
+  width: 20em;
   background-image: url(${props => props.bg});
   background-size: cover;
 `;
@@ -28,17 +27,16 @@ const PhotoIcons = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
-  color: white;
+  background-color: rgba(0, 0, 0, 0.7);
   opacity: 0;
   &:hover {
     opacity: 1;
   }
 `;
 const Icon = styled.span`
-  font-size: 18px;
   display: flex;
   align-items: center;
+  font-size: 14px;
   margin: 0px 10px;
   svg {
     font-size: 14px;
@@ -46,7 +44,7 @@ const Icon = styled.span`
   }
 `;
 
-export const PostTab = profile => {
+export const CPostGrid = ({ posts }) => {
   const popUp = useReactiveVar(popUpVar);
   const popUpId = useReactiveVar(popUpIdVar);
   const onClick = async id => {
@@ -57,7 +55,7 @@ export const PostTab = profile => {
   return (
     <Container>
       <Grid>
-        {profile?.posts?.map(post => (
+        {posts?.map(post => (
           <Photo key={post.id} bg={post.photo} onClick={() => onClick(post.id)}>
             <PhotoIcons>
               <Icon>

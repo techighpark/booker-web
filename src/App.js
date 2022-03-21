@@ -11,8 +11,10 @@ import { BookProfile } from "./screen/BookProfile";
 import { UserProfile } from "./screen/UserProfile";
 import { SearchResult } from "./screen/SearchResult";
 import { EditUserProfile } from "./screen/EditUserProfile";
-import { Test } from "./screen/Test";
 import { UploadPost } from "./screen/UploadPost";
+import { Hashtag } from "./screen/Hashtag";
+import { Following } from "./screen/Following";
+import { Recommend } from "./screen/Recommend";
 
 function App() {
   const themeMode = useReactiveVar(themeModeVar);
@@ -23,7 +25,6 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={isLoggedIn ? <Home /> : <Login />} />
-          <Route path="/test" element={<Test />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/user/:username" element={<UserProfile />} />
           <Route path="/author/:fullName" element={<AuthorProfile />} />
@@ -31,6 +32,9 @@ function App() {
           <Route path="/account/edit" element={<EditUserProfile />} />
           <Route path="/account/upload" element={<UploadPost />} />
           <Route path="/search/result" element={<SearchResult />} />
+          <Route path="/hashtags/:hashtag" element={<Hashtag />} />
+          <Route path="/recommend" element={<Recommend />} />
+          {/* <Route path="/following" element={<Following />} /> */}
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

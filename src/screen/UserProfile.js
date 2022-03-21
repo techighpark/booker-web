@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link, useParams } from "react-router-dom";
 import { LayoutP } from "../component/Shared/LayoutP";
 import { AUTHOR_TAB, BOOK_TAB, POST_TAB, ProfileTabVar } from "../apollo";
-import { PostTab } from "../component/User/PostTab";
+import { CPostGrid } from "../component/User/CPostGrid";
 import { AuthorTab } from "../component/User/AuthorTab";
 import { BookTab } from "../component/User/BookTab";
 import { CAvatar } from "../component/Shared/CAvatar";
@@ -32,6 +32,9 @@ const SEE_PROFILE_QUERY = gql`
         photoProfile
         totalFollower
         totalLikes
+        totalBooks
+        isLiked
+        isFollowing
       }
       followingBook {
         id
@@ -40,6 +43,11 @@ const SEE_PROFILE_QUERY = gql`
         author {
           fullName
         }
+        totalLikes
+        totalReviews
+        totalFollower
+        isLiked
+        isFollowing
       }
       totalFollowerUser
       totalFollowingUser
@@ -100,13 +108,7 @@ const TabButtons = styled.div`
   justify-content: space-around;
 `;
 
-const TabContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  background-color: ${props => props.theme.button.bgColor};
-  border-radius: 20px;
-`;
+const TabContainer = styled.div``;
 
 const Button = styled.span`
   width: 150px;
@@ -122,7 +124,6 @@ const EditProfileBtn = styled.div`
   color: ${props => props.theme.button.accent.fontColor};
   font-size: 14px;
   font-weight: 600;
-  border-radius: 3px;
   cursor: pointer;
   &:hover {
     background-color: ${props => props.theme.link.accent.hoverFontColor};
@@ -138,7 +139,7 @@ export const UserProfile = () => {
 
   const getTab = (ProfileTab, profile) => {
     if (ProfileTab === POST_TAB) {
-      return <PostTab {...profile} />;
+      return <CPostGrid posts={profile?.posts} />;
     } else if (ProfileTab === AUTHOR_TAB) {
       return <AuthorTab {...profile} />;
     } else {
@@ -148,7 +149,10 @@ export const UserProfile = () => {
   return (
     <LayoutP>
       <ProfileHeader>
-        <CAvatar url={data?.seeProfile?.avatar} avatarSize={"lg"} />
+        <Link to={"/account/edit"}>
+          <CAvatar url={data?.seeProfile?.avatar} avatarSize={"lg"} />
+        </Link>
+
         <Column>
           <Row>
             <UsernameContainer>

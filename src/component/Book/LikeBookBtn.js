@@ -4,16 +4,6 @@ import { faHeart as fasHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { gql, useMutation } from "@apollo/client";
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 50px;
-`;
-
-const Likes = styled.div`
-  font-weight: 600;
-  margin-bottom: 10px;
-`;
 const LikeBtn = styled.div`
   color: ${props => (props.isFollowing ? props.theme.secondary.bgColor : "")};
   opacity: 1;
@@ -32,7 +22,7 @@ const TOGGLE_BOOK_LIKE_MUTATION = gql`
   }
 `;
 
-export const LikeBook = ({ bookId, totalLikes, isLiked, title }) => {
+export const LikeBookBtn = ({ bookId, isLiked, title }) => {
   const toggleBookLikeUpdate = (cache, result) => {
     const {
       data: {
@@ -60,12 +50,8 @@ export const LikeBook = ({ bookId, totalLikes, isLiked, title }) => {
     update: toggleBookLikeUpdate,
   });
   return (
-    <Container>
-      <Likes>Likes {totalLikes}</Likes>
-
-      <LikeBtn isLiked={isLiked} onClick={toggleBookLikeMutation}>
-        <FontAwesomeIcon icon={isLiked ? fasHeart : faHeart} size={"1x"} />
-      </LikeBtn>
-    </Container>
+    <LikeBtn isLiked={isLiked} onClick={toggleBookLikeMutation}>
+      <FontAwesomeIcon icon={isLiked ? fasHeart : faHeart} size={"1x"} />
+    </LikeBtn>
   );
 };

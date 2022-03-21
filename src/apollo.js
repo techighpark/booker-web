@@ -6,6 +6,7 @@ import {
   makeVar,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
+import { relayStylePagination } from "@apollo/client/utilities";
 import { createUploadLink } from "apollo-upload-client";
 
 const THEME_MODE = "themeMode";
@@ -37,8 +38,7 @@ export const userLogIn = token => {
 
 export const userLogOut = () => {
   localStorage.removeItem(TOKEN);
-  window.location.reload();
-  // navigate("/", { replace: true });
+  window.location.replace("/");
 };
 
 export const popUpPost = (popUpId, id) => {

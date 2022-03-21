@@ -5,6 +5,7 @@ import { CAvatar } from "../component/Shared/CAvatar";
 import { LayoutP } from "../component/Shared/LayoutP";
 import { CUsername } from "../component/Shared/CUsername";
 import { CItemLink } from "../component/Link/CItemLink";
+import { CHashtagLink } from "../component/Link/CHashtagLink";
 
 const Wrapper = styled.div``;
 const ConatinerName = styled.div`
@@ -61,7 +62,7 @@ export const SearchResult = () => {
   const {
     state: { keyword },
   } = location;
-  const { data, loading } = useQuery(SEARCH_QUERY, { variables: { keyword } });
+  const { data } = useQuery(SEARCH_QUERY, { variables: { keyword } });
 
   return (
     <LayoutP>
@@ -110,7 +111,7 @@ export const SearchResult = () => {
         {data?.searchAll?.hashtags.length !== 0 ? (
           data?.searchAll?.hashtags?.map(hashtag => (
             <Container key={hashtag.id}>
-              <div>{hashtag.hashtag}</div>
+              <CHashtagLink hashtag={hashtag.hashtag} />
             </Container>
           ))
         ) : (

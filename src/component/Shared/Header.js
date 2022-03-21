@@ -1,14 +1,13 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import useUser from "../../hook/useUser";
-import { loggedInVar, userLogOut } from "../../apollo";
 import { SAppTitle } from "./SAppTitle";
 import { CAvatar } from "./CAvatar";
 import { ThemeModeBtn } from "../Button/ThemeModeBtn";
 import { Search } from "../Search";
 import { CLogOutBtn } from "../Button/CLogOutBtn";
 import { CUploadBtn } from "../Button/CUploadBtn";
-import { useState } from "react";
+import { CRecommendBtn } from "../Button/CRecommendBtn";
 
 const Container = styled.div`
   display: flex;
@@ -48,6 +47,7 @@ export const Header = () => {
       <Column>
         {data?.me === undefined || data?.me === null ? null : (
           <UserContainer>
+            <CRecommendBtn />
             <CUploadBtn />
             <CLogOutBtn />
             <Link to={`/user/${data?.me?.username}`}>

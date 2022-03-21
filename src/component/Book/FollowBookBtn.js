@@ -4,16 +4,6 @@ import { faBookmark as fasBookmark } from "@fortawesome/free-solid-svg-icons";
 import { faBookmark } from "@fortawesome/free-regular-svg-icons";
 import { gql, useMutation } from "@apollo/client";
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 80px;
-`;
-
-const Follower = styled.div`
-  font-weight: 600;
-  margin-bottom: 10px;
-`;
 const FollowBtn = styled.div`
   margin-bottom: 10px;
   color: ${props => (props.isFollowing ? props.theme.secondary.bgColor : "")};
@@ -40,7 +30,7 @@ const UNFOLLOW_BOOK = gql`
   }
 `;
 
-export const FollowBook = ({
+export const FollowBookBtn = ({
   loggedInUser,
   bookId,
   totalFollower,
@@ -130,17 +120,14 @@ export const FollowBook = ({
     update: updateUnfollowBookMutation,
   });
   return (
-    <Container>
-      <Follower> Followers {totalFollower}</Follower>
-      <FollowBtn
-        isFollowing={isFollowing}
-        onClick={isFollowing ? unfollowBookMutation : followBookMutation}
-      >
-        <FontAwesomeIcon
-          icon={isFollowing ? fasBookmark : faBookmark}
-          size={"1x"}
-        />
-      </FollowBtn>
-    </Container>
+    <FollowBtn
+      isFollowing={isFollowing}
+      onClick={isFollowing ? unfollowBookMutation : followBookMutation}
+    >
+      <FontAwesomeIcon
+        icon={isFollowing ? fasBookmark : faBookmark}
+        size={"1x"}
+      />
+    </FollowBtn>
   );
 };

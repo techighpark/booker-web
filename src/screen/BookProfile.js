@@ -1,10 +1,10 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { LayoutP } from "../component/Shared/LayoutP";
 import { SharedBox } from "../component/Shared/SharedBox";
-import { FollowBook } from "../component/Book/FollowBook";
-import { LikeBook } from "../component/Book/LikeBook";
+import { FollowBookBtn } from "../component/Book/FollowBookBtn";
+import { LikeBookBtn } from "../component/Book/LikeBookBtn";
 import useUser from "../hook/useUser";
 
 const SEE_BOOK = gql`
@@ -73,6 +73,15 @@ const BookDate = styled.div`
   opacity: 0.5;
 `;
 
+const ActionContainer = styled.div``;
+const Follower = styled.div`
+  font-weight: 600;
+  margin-bottom: 10px;
+`;
+const Likes = styled.div`
+  font-weight: 600;
+  margin-bottom: 10px;
+`;
 const Author = styled.div`
   font-size: 20px;
   font-weight: 500;
@@ -98,12 +107,22 @@ export const BookProfile = () => {
         <Link to={`/author/${bookData?.seeBook?.author?.fullName}`}>
           <Author>{bookData?.seeBook?.author?.fullName}</Author>
         </Link>
-        <FollowBook
-          bookId={id}
-          loggedInUser={userData}
-          {...bookData?.seeBook}
-        />
-        <LikeBook bookId={id} loggedInUser={userData} {...bookData?.seeBook} />
+        <ActionContainer>
+          <Follower> Followers {bookData?.seeBook?.totalFollower}</Follower>
+          <FollowBookBtn
+            bookId={id}
+            loggedInUser={userData}
+            {...bookData?.seeBook}
+          />
+        </ActionContainer>
+        <ActionContainer>
+          <Likes>Likes {bookData?.seeBook?.totalLikes}</Likes>
+          <LikeBookBtn
+            bookId={id}
+            loggedInUser={userData}
+            {...bookData?.seeBook}
+          />
+        </ActionContainer>
       </BookBox>
     </LayoutP>
   );

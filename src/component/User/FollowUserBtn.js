@@ -1,6 +1,5 @@
 import { gql, useMutation } from "@apollo/client";
 import styled from "styled-components";
-import { POST_FRAGMENT } from "../../fragment";
 import useUser from "../../hook/useUser";
 import { SEE_FEED_QUERY } from "../../screen/Home";
 
@@ -18,7 +17,6 @@ const FollowBtn = styled.div`
       : ""};
   font-size: 14px;
   font-weight: 500;
-  border-radius: 3px;
   cursor: pointer;
   transition: all 0.3s ease;
   &:hover {

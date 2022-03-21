@@ -104,6 +104,7 @@ export const Login = () => {
                 },
                 onChange: () => clearResultError(),
               })}
+              type={"text"}
               placeholder={"Username"}
             ></SAuthInput>
             <SAuthInput
@@ -111,6 +112,7 @@ export const Login = () => {
                 required: "Sorry, your password was incorrect.",
                 onChange: () => clearResultError(),
               })}
+              type={"password"}
               placeholder={"Password"}
             ></SAuthInput>
             <SSubmitBtn
