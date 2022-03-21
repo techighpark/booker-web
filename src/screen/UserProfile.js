@@ -122,7 +122,7 @@ const EditProfileBtn = styled.div`
   line-height: 25px;
   text-align: center;
   background-color: ${props => props.theme.link.accent.fontColor};
-  color: ${props => props.theme.button.accent.fontColor};
+  color: ${props => props.theme.primary.fontColor};
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;

@@ -5,7 +5,7 @@ export const darkMode = {
   middleTextFontColor: "#757575",
   primary: {
     bgColor: "#202124",
-    fontColor: "#C5C5C6",
+    fontColor: "#EBECEC",
     accent: {
       bgColor: "",
       fontColor: "#FFA000",
@@ -97,6 +97,8 @@ export const lightMode = {
 export const fontType = {
   basic: `'Titillium Web', sans-serif`,
   balboo: `"Baloo 2",cursive`,
+  roboto: `'Roboto', sans-serif`,
+  lexend: `'Lexend Deca', sans-serif`,
 };
 
 export const GlobalStyle = createGlobalStyle`
@@ -119,6 +121,6 @@ body{
     color:${props => props.theme.primary.fontColor};
     font-size:14px;
     font-weight:300 ;
-    font-family: ${fontType.balboo};
+    font-family: ${fontType.roboto};
     width:100% ;
 }`;

@@ -5,11 +5,13 @@ import styled from "styled-components";
 const Container = styled.div``;
 
 const Input = styled.input`
-  width: 300px;
+  position: relative;
+  width: 250px;
   padding: 5px 10px;
   border: 1px solid gray;
   &::placeholder {
     padding-left: 10px;
+    font-size: 10px;
   }
 `;
 
@@ -35,12 +37,12 @@ export const Search = () => {
       <form onSubmit={handleSubmit(onValidSubmit)}>
         <Input
           type={"text"}
-          placeholder={`Search(how to use Icon?)`}
+          placeholder={`Search`}
           {...register("keyword", {
             required: true,
             onChange: () => clearResultError(),
           })}
-        />
+        ></Input>
       </form>
     </Container>
   );

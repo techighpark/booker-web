@@ -27,7 +27,7 @@ const PhotoIcons = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(255, 255, 255, 0.3);
   opacity: 0;
   &:hover {
     opacity: 1;
@@ -38,6 +38,7 @@ const Icon = styled.span`
   align-items: center;
   font-size: 14px;
   margin: 0px 10px;
+  color: white;
   svg {
     font-size: 14px;
     margin-right: 5px;
