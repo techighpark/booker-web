@@ -5,12 +5,12 @@ import styled from "styled-components";
 import { onDarkMode, onLightMode, themeModeVar } from "../../apollo";
 
 const ModeBtn = styled.div`
-  color: ${props => props.theme.button.fontColor};
+  color: ${props => props.theme.primary.fontColor};
   margin: 0px 20px;
   svg {
     cursor: pointer;
     &:hover {
-      color: ${props => props.theme.button.accent.fontColor};
+      color: ${props => props.theme.link.accent.fontColor};
     }
   }
 `;

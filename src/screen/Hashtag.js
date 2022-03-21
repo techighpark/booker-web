@@ -4,21 +4,15 @@ import styled from "styled-components";
 import { CAvatar } from "../component/Shared/CAvatar";
 import { LayoutP } from "../component/Shared/LayoutP";
 import { PageTitle } from "../component/Shared/PageTitle";
+import { STitle } from "../component/Shared/STitle";
 import { CPostGrid } from "../component/User/CPostGrid";
-const Title = styled.div`
-  text-align: center;
-  margin-top: 50px;
-  margin-bottom: 20px;
-  font-size: 16px;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.4);
-`;
 
 const HeadContainer = styled.div`
   display: flex;
   width: 100%;
   max-width: 60%;
-  margin-top: 50px;
+  margin-top: 30px;
+  margin-bottom: 70px;
 `;
 const HashtagContainer = styled.div`
   display: flex;
@@ -76,7 +70,7 @@ export const Hashtag = () => {
   return (
     <LayoutP>
       <PageTitle title={loading ? "Loading..." : `#${hashtag} hashtag on`} />
-      <Title>Hashtag</Title>
+      <STitle>Hashtag</STitle>
       <HeadContainer>
         <CAvatar url={postData?.seeHashtagPost[0]?.photo} avatarSize={"lg"} />
         <HashtagContainer>

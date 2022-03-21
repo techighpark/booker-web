@@ -11,9 +11,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
-const Container = styled.div`
-  margin-top: 100px;
-`;
+const Container = styled.div``;
 const Grid = styled.div`
   display: grid;
   grid-auto-rows: 20em;

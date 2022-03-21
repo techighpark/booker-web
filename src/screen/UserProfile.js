@@ -69,7 +69,7 @@ const ProfileHeader = styled.div`
 
 const Column = styled.div`
   margin-left: 70px;
-  width: 500px;
+  width: 400px;
 `;
 const Row = styled.div`
   width: 100%;
@@ -79,9 +79,14 @@ const UsernameContainer = styled.div`
   width: 50%;
   margin-bottom: 40px;
 `;
+const UserBio = styled.div`
+  margin-top: 20px;
+  font-size: 12px;
+  opacity: 0.5;
+`;
 
 const FollowContainer = styled.div`
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   font-size: 16px;
   font-weight: 500;
   margin-right: 20px;
@@ -97,24 +102,25 @@ const Text = styled.span`
 
 const ProfileBody = styled.div`
   width: 90%;
-  margin-top: 100px;
+  margin-top: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
 
+const Button = styled.span`
+  /* width: 150px;
+  height: 100%; */
+`;
 const TabButtons = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
+  width: 100%;
+  border-top: 0.5px solid ${props => props.theme.box.borderColor};
 `;
 
 const TabContainer = styled.div``;
-
-const Button = styled.span`
-  width: 150px;
-  height: 100%;
-`;
 
 const EditProfileBtn = styled.div`
   width: 100px;
@@ -206,6 +212,9 @@ export const UserProfile = () => {
               {data?.seeProfile?.totalFollowingBook}
               <Text> book following</Text>
             </FollowContainer>
+          </Row>
+          <Row>
+            <UserBio>{data?.seeProfile?.bio}</UserBio>
           </Row>
         </Column>
       </ProfileHeader>

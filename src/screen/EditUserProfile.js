@@ -92,15 +92,32 @@ export const EditUserProfile = () => {
     handleSubmit,
     setError,
     clearErrors,
+    getValues,
     formState: { errors },
   } = useForm({
-    mode: "onChange",
+    mode: "onSubmit",
   });
   const { data: queryData, loading } = useQuery(SEE_PROFILE_QUERY, {
     variables: { username: userData?.me?.username },
   });
-  const onCompleted = data => {
-    navigate(`/user/${userData?.me?.username}`);
+  const editProfileUpdate = (cache, result) => {
+    const { avatar } = getValues();
+    const {
+      data: {
+        editProfile: { ok },
+      },
+    } = result;
+    if (ok) {
+      cache.modify({
+        id: `User:${userData?.me?.username}`,
+        fields: {
+          avatar(prev) {
+            return;
+          },
+        },
+      });
+      navigate(`/user/${userData?.me?.username}`);
+    }
   };
   const onValidSubmit = data => {
     const { username, email, bio, password, passwordCheck, avatar } = data;
@@ -112,7 +129,7 @@ export const EditUserProfile = () => {
     });
   };
   const [editProfileMutation] = useMutation(EDIT_PROFILE_MUTATION, {
-    onCompleted,
+    update: editProfileUpdate,
   });
 
   const clearPasswordErrors = () => {

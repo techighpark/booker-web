@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
 const Container = styled.div`
-  margin-top: 100px;
+  /* margin-top: 30px; */
 `;
 const Grid = styled.div`
   display: grid;

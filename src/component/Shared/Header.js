@@ -4,7 +4,7 @@ import useUser from "../../hook/useUser";
 import { SAppTitle } from "./SAppTitle";
 import { CAvatar } from "./CAvatar";
 import { ThemeModeBtn } from "../Button/ThemeModeBtn";
-import { Search } from "../Search";
+import { Search } from "./Search";
 import { CLogOutBtn } from "../Button/CLogOutBtn";
 import { CUploadBtn } from "../Button/CUploadBtn";
 import { CRecommendBtn } from "../Button/CRecommendBtn";

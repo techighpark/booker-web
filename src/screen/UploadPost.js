@@ -10,15 +10,7 @@ import { useNavigate } from "react-router-dom";
 import useUser from "../hook/useUser";
 import { POST_FRAGMENT } from "../fragment";
 import { PageTitle } from "../component/Shared/PageTitle";
-
-const Title = styled.div`
-  text-align: center;
-  margin-top: 50px;
-  margin-bottom: 20px;
-  font-size: 16px;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.4);
-`;
+import { STitle } from "../component/Shared/STitle";
 
 const ContainerName = styled.div`
   width: 150px;
@@ -32,7 +24,7 @@ const Container = styled.div`
 const PhotoPreview = styled.div`
   width: 600px;
   height: 600px;
-  border: 1px solid white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   overflow: hidden;
   box-sizing: border-box;
   margin-top: 30px;
@@ -171,7 +163,7 @@ export const UploadPost = () => {
   };
 
   const setPhoto = new Image();
-  setPhoto.src = selectedPhoto;
+  setPhoto.src = previewPhoto;
   setPhoto.onload = () => {
     const photoHeight = setPhoto.height;
     const photoWidth = setPhoto.width;
@@ -219,7 +211,7 @@ export const UploadPost = () => {
   return (
     <LayoutP>
       <PageTitle title={loading ? "Loading..." : "Create new Post"} />
-      <Title>Upload Your Post</Title>
+      <STitle>Upload Your Post</STitle>
       <ErrorMessage hasError={errors?.result}>
         {errors?.result?.message}
       </ErrorMessage>

@@ -8,7 +8,7 @@ export const darkMode = {
     fontColor: "#EBECEC",
     accent: {
       bgColor: "",
-      fontColor: "#FFA000",
+      fontColor: "#FF9000",
     },
   },
   secondary: {
@@ -43,8 +43,8 @@ export const darkMode = {
     hoverFontColor: "#616161",
     accent: {
       bgColor: "",
-      fontColor: "#FFA000",
-      hoverFontColor: "#FFC107",
+      fontColor: "#FF9000",
+      hoverFontColor: "#FF9300",
     },
   },
 };
@@ -55,7 +55,7 @@ export const lightMode = {
     fontColor: "#202124",
     accent: {
       bgColor: "",
-      fontColor: "#FFA000",
+      fontColor: "#FF9000",
     },
   },
   secondary: {
@@ -89,8 +89,8 @@ export const lightMode = {
     hoverFontColor: "#616161",
     accent: {
       bgColor: "",
-      fontColor: "#FFA000",
-      hoverFontColor: "#FFC107",
+      fontColor: "#FF9000",
+      hoverFontColor: "#FF9300",
     },
   },
 };

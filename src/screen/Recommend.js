@@ -10,6 +10,7 @@ import {
 import { faUser, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { PageTitle } from "../component/Shared/PageTitle";
+import { STitle } from "../component/Shared/STitle";
 
 const RECOMMEND_QUERY = gql`
   query recommend {
@@ -37,14 +38,7 @@ const RECOMMEND_QUERY = gql`
     }
   }
 `;
-const Title = styled.div`
-  text-align: center;
-  margin-top: 50px;
-  margin-bottom: 20px;
-  font-size: 16px;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.4);
-`;
+
 const Grid = styled.div`
   margin-top: 30px;
   display: grid;
@@ -118,7 +112,7 @@ export const Recommend = () => {
   return (
     <LayoutP>
       <PageTitle title={loading ? "Loading..." : `Recommendation`} />
-      <Title>Recommendation</Title>
+      <STitle>Recommendation</STitle>
       <Grid>
         {randomRecommend?.map(item => {
           return (

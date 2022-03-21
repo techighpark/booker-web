@@ -5,12 +5,11 @@ import styled from "styled-components";
 const Container = styled.div``;
 
 const Input = styled.input`
-  position: relative;
-  width: 250px;
+  width: 300px;
   padding: 5px 10px;
   border: 1px solid gray;
   &::placeholder {
-    padding-left: 10px;
+    padding-left: 3px;
     font-size: 10px;
   }
 `;

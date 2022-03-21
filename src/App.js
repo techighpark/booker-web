@@ -16,6 +16,7 @@ import { Hashtag } from "./screen/Hashtag";
 // import { Following } from "./screen/Following";
 import { Recommend } from "./screen/Recommend";
 import { HelmetProvider } from "react-helmet-async";
+import { Admin } from "./screen/Admin";
 
 function App() {
   const themeMode = useReactiveVar(themeModeVar);
@@ -36,6 +37,7 @@ function App() {
             <Route path="/search/result" element={<SearchResult />} />
             <Route path="/hashtags/:hashtag" element={<Hashtag />} />
             <Route path="/recommend" element={<Recommend />} />
+            <Route path="/admin" element={<Admin />} />
             {/* <Route path="/following" element={<Following />} /> */}
           </Routes>
         </BrowserRouter>
