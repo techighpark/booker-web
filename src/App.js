@@ -13,31 +13,34 @@ import { SearchResult } from "./screen/SearchResult";
 import { EditUserProfile } from "./screen/EditUserProfile";
 import { UploadPost } from "./screen/UploadPost";
 import { Hashtag } from "./screen/Hashtag";
-import { Following } from "./screen/Following";
+// import { Following } from "./screen/Following";
 import { Recommend } from "./screen/Recommend";
+import { HelmetProvider } from "react-helmet-async";
 
 function App() {
   const themeMode = useReactiveVar(themeModeVar);
   const isLoggedIn = useReactiveVar(loggedInVar);
   return (
-    <ThemeProvider theme={themeMode ? darkMode : lightMode}>
-      <GlobalStyle />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={isLoggedIn ? <Home /> : <Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route path="/user/:username" element={<UserProfile />} />
-          <Route path="/author/:fullName" element={<AuthorProfile />} />
-          <Route path="/book/:id" element={<BookProfile />} />
-          <Route path="/account/edit" element={<EditUserProfile />} />
-          <Route path="/account/upload" element={<UploadPost />} />
-          <Route path="/search/result" element={<SearchResult />} />
-          <Route path="/hashtags/:hashtag" element={<Hashtag />} />
-          <Route path="/recommend" element={<Recommend />} />
-          {/* <Route path="/following" element={<Following />} /> */}
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider theme={themeMode ? darkMode : lightMode}>
+        <GlobalStyle />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={isLoggedIn ? <Home /> : <Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/user/:username" element={<UserProfile />} />
+            <Route path="/author/:fullName" element={<AuthorProfile />} />
+            <Route path="/book/:id" element={<BookProfile />} />
+            <Route path="/account/edit" element={<EditUserProfile />} />
+            <Route path="/account/upload" element={<UploadPost />} />
+            <Route path="/search/result" element={<SearchResult />} />
+            <Route path="/hashtags/:hashtag" element={<Hashtag />} />
+            <Route path="/recommend" element={<Recommend />} />
+            {/* <Route path="/following" element={<Following />} /> */}
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
+    </HelmetProvider>
   );
 }
 

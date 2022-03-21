@@ -2,6 +2,7 @@ import { gql, useQuery } from "@apollo/client";
 import styled from "styled-components";
 import { LayoutP } from "../component/Shared/LayoutP";
 import { Post } from "../component/Feed/Post";
+import { PageTitle } from "../component/Shared/PageTitle";
 
 const Container = styled.div``;
 
@@ -49,6 +50,7 @@ export const Home = () => {
   const { data } = useQuery(SEE_FEED_QUERY);
   return (
     <LayoutP>
+      <PageTitle title={"Home"} />
       <Container>
         {data?.seeFeed?.map(post => (
           <Post key={post.id} {...post} />

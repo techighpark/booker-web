@@ -6,6 +6,7 @@ import { LayoutP } from "../component/Shared/LayoutP";
 import { CUsername } from "../component/Shared/CUsername";
 import { CItemLink } from "../component/Link/CItemLink";
 import { CHashtagLink } from "../component/Link/CHashtagLink";
+import { PageTitle } from "../component/Shared/PageTitle";
 
 const Wrapper = styled.div``;
 const ConatinerName = styled.div`
@@ -62,10 +63,11 @@ export const SearchResult = () => {
   const {
     state: { keyword },
   } = location;
-  const { data } = useQuery(SEARCH_QUERY, { variables: { keyword } });
+  const { data, loading } = useQuery(SEARCH_QUERY, { variables: { keyword } });
 
   return (
     <LayoutP>
+      <PageTitle title={loading ? "Loading..." : `${keyword}'s find results`} />
       <Wrapper>
         <ConatinerName>User</ConatinerName>
         {data?.searchAll?.users.length !== 0 ? (

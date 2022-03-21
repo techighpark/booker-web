@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { FollowAuthorBtn } from "../component/Author/FollowAuthorBtn";
 import { LikeAuthorBtn } from "../component/Author/LikeAuthorBtn";
 import { LayoutP } from "../component/Shared/LayoutP";
+import { PageTitle } from "../component/Shared/PageTitle";
 import { SharedBox } from "../component/Shared/SharedBox";
 import useUser from "../hook/useUser";
 
@@ -65,10 +66,13 @@ const TotalBooks = styled.div``;
 
 export const AuthorProfile = () => {
   const { fullName } = useParams();
-  const { data: userData } = useUser();
+  const { data: userData, loading } = useUser();
   const { data } = useQuery(SEE_AUTHOR, { variables: { fullName } });
   return (
     <LayoutP>
+      <PageTitle
+        title={loading ? "loading..." : `Author | ${data?.seeAuthor?.fullName}`}
+      />
       <AuthorBox>
         <AuthorPhoto src={data?.seeAuthor?.photoProfile} />
         <FullName>{data?.seeAuthor?.fullName}</FullName>

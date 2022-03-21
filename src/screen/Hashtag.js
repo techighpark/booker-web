@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { CAvatar } from "../component/Shared/CAvatar";
 import { LayoutP } from "../component/Shared/LayoutP";
+import { PageTitle } from "../component/Shared/PageTitle";
 import { CPostGrid } from "../component/User/CPostGrid";
 const Title = styled.div`
   text-align: center;
@@ -65,7 +66,7 @@ const SEE_HASHTAG = gql`
 `;
 export const Hashtag = () => {
   const { hashtag } = useParams();
-  const { data: postData } = useQuery(SEE_HASHTAG_POST, {
+  const { data: postData, loading } = useQuery(SEE_HASHTAG_POST, {
     variables: { hashtag: `#${hashtag}` },
   });
   const { data: hashData } = useQuery(SEE_HASHTAG, {
@@ -74,6 +75,7 @@ export const Hashtag = () => {
 
   return (
     <LayoutP>
+      <PageTitle title={loading ? "Loading..." : `#${hashtag} hashtag on`} />
       <Title>Hashtag</Title>
       <HeadContainer>
         <CAvatar url={postData?.seeHashtagPost[0]?.photo} avatarSize={"lg"} />

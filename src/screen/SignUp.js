@@ -12,6 +12,7 @@ import { LightText } from "../component/Shared/LightText";
 import { SBoldLink } from "../component/Link/SBoldLink";
 import { ErrorMessage } from "../component/Shared/ErrorMessage";
 import { SAppTitle } from "../component/Shared/SAppTitle";
+import { PageTitle } from "../component/Shared/PageTitle";
 
 const CREATE_ACCOUNT = gql`
   mutation createAccount(
@@ -61,6 +62,8 @@ export const SignUp = () => {
 
   return (
     <CAuthLayout>
+      <PageTitle title={loading ? "Loading..." : `Sign Up`} />
+
       <SAuthInputColumn>
         <SAppTitle>Booker</SAppTitle>
         <SAuthInputContainer>

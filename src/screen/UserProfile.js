@@ -10,6 +10,7 @@ import { CAvatar } from "../component/Shared/CAvatar";
 import { CUsername } from "../component/Shared/CUsername";
 import { CTabButton } from "../component/User/CTabButton";
 import { FollowUSerBtn } from "../component/User/FollowUserBtn";
+import { PageTitle } from "../component/Shared/PageTitle";
 
 const SEE_PROFILE_QUERY = gql`
   query seeProfile($username: String!) {
@@ -134,7 +135,9 @@ const EditProfileBtn = styled.div`
 
 export const UserProfile = () => {
   const { username } = useParams();
-  const { data } = useQuery(SEE_PROFILE_QUERY, { variables: { username } });
+  const { data, loading } = useQuery(SEE_PROFILE_QUERY, {
+    variables: { username },
+  });
   const ProfileTab = useReactiveVar(ProfileTabVar);
 
   const getTab = (ProfileTab, profile) => {
@@ -148,6 +151,11 @@ export const UserProfile = () => {
   };
   return (
     <LayoutP>
+      <PageTitle
+        title={
+          loading ? "Loading..." : `${data?.seeProfile?.username}'s Profile`
+        }
+      />
       <ProfileHeader>
         <Link to={"/account/edit"}>
           <CAvatar url={data?.seeProfile?.avatar} avatarSize={"lg"} />

@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { faUser, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { PageTitle } from "../component/Shared/PageTitle";
 
 const RECOMMEND_QUERY = gql`
   query recommend {
@@ -97,7 +98,7 @@ const Icon = styled.span`
   }
 `;
 export const Recommend = () => {
-  const { data } = useQuery(RECOMMEND_QUERY);
+  const { data, loading } = useQuery(RECOMMEND_QUERY);
   const recommendArray = data?.recommend?.authors?.concat(
     data?.recommend?.books,
     data?.recommend?.users
@@ -116,6 +117,7 @@ export const Recommend = () => {
   };
   return (
     <LayoutP>
+      <PageTitle title={loading ? "Loading..." : `Recommendation`} />
       <Title>Recommendation</Title>
       <Grid>
         {randomRecommend?.map(item => {

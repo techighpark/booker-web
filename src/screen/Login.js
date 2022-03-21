@@ -16,6 +16,7 @@ import { MiddleText } from "../component/Shared/MiddleText";
 import { SBoldLink } from "../component/Link/SBoldLink";
 import { LightText } from "../component/Shared/LightText";
 import { SAppTitle } from "../component/Shared/SAppTitle";
+import { PageTitle } from "../component/Shared/PageTitle";
 
 const ImageColumn = styled.div`
   height: 400px;
@@ -87,6 +88,7 @@ export const Login = () => {
 
   return (
     <CAuthLayout>
+      <PageTitle title={loading ? "Loading..." : `Login`} />
       <ImageColumn>
         <ImageBox src={loginImg}></ImageBox>
       </ImageColumn>

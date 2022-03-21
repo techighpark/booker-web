@@ -6,6 +6,7 @@ import { SharedBox } from "../component/Shared/SharedBox";
 import { FollowBookBtn } from "../component/Book/FollowBookBtn";
 import { LikeBookBtn } from "../component/Book/LikeBookBtn";
 import useUser from "../hook/useUser";
+import { PageTitle } from "../component/Shared/PageTitle";
 
 const SEE_BOOK = gql`
   query seeBook($id: Int!) {
@@ -89,7 +90,7 @@ const Author = styled.div`
 
 export const BookProfile = () => {
   const { id } = useParams();
-  const { data: bookData } = useQuery(SEE_BOOK, {
+  const { data: bookData, loading } = useQuery(SEE_BOOK, {
     variables: { id: parseInt(id) },
   });
   const { data: userData } = useUser();
@@ -97,6 +98,10 @@ export const BookProfile = () => {
 
   return (
     <LayoutP>
+      <PageTitle
+        title={loading ? "Loading..." : `Book | ${bookData?.seeBook?.title}`}
+      />
+
       <BookCover src={bookData?.seeBook?.bookCover} />
       <BookBox>
         <BookInfo>

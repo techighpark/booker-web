@@ -9,6 +9,7 @@ import { ErrorMessage } from "../component/Shared/ErrorMessage";
 import { CAvatar } from "../component/Shared/CAvatar";
 import { CUsername } from "../component/Shared/CUsername";
 import { useNavigate } from "react-router-dom";
+import { PageTitle } from "../component/Shared/PageTitle";
 
 const SEE_PROFILE_QUERY = gql`
   query seeProfile($username: String!) {
@@ -136,6 +137,8 @@ export const EditUserProfile = () => {
   };
   return (
     <LayoutP>
+      <PageTitle title={loading ? "Loading..." : `Edit Profile`} />
+
       <UserContainer>
         {selectedAvatar ? (
           <CAvatar url={selectedAvatar} avatarSize={"lg"} />
