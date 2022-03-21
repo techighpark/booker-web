@@ -104,7 +104,8 @@ const SEE_AUTHOR_QUERY = gql`
 `;
 
 export const UploadPost = () => {
-  const [photoUrl, setPhotoUrl] = useState();
+  const [selectedPhoto, setSelectedPhoto] = useState();
+  const [previewPhoto, setPrieviewPhoto] = useState();
   const [resizedPhotoHeight, setPhotoHeight] = useState();
   const [resizedPhotoWidth, setPhotoWidth] = useState();
   const { data: userProfile } = useUserProfile();
@@ -113,7 +114,6 @@ export const UploadPost = () => {
   const {
     register,
     handleSubmit,
-    watch,
     setError,
     formState: { errors, isValid },
     clearErrors,
@@ -170,18 +170,8 @@ export const UploadPost = () => {
     seeAuthorQuery({ variables: { fullName: value } });
   };
 
-  useEffect(() => {
-    const [file] = watch("photo");
-    var binaryData = [];
-    binaryData.push(file);
-    const photoUrl = window.URL.createObjectURL(
-      new Blob(binaryData, { type: "application/zip" })
-    );
-    setPhotoUrl(photoUrl);
-  }, [watch("photo")]);
-
   const setPhoto = new Image();
-  setPhoto.src = photoUrl;
+  setPhoto.src = selectedPhoto;
   setPhoto.onload = () => {
     const photoHeight = setPhoto.height;
     const photoWidth = setPhoto.width;
@@ -207,6 +197,25 @@ export const UploadPost = () => {
     clearErrors("result");
   };
 
+  const onChangePhoto = e => {
+    const {
+      target: {
+        files: [file],
+      },
+    } = e;
+    setSelectedPhoto(file);
+  };
+
+  useEffect(() => {
+    if (!selectedPhoto) {
+      setPrieviewPhoto(undefined);
+      return;
+    }
+    const url = URL.createObjectURL(selectedPhoto);
+    setPrieviewPhoto(url);
+    return () => URL.revokeObjectURL(url);
+  }, [selectedPhoto]);
+
   return (
     <LayoutP>
       <PageTitle title={loading ? "Loading..." : "Create new Post"} />
@@ -217,7 +226,7 @@ export const UploadPost = () => {
       <form onSubmit={handleSubmit(onValidSubmit)}>
         <PhotoPreview>
           <Photo
-            src={photoUrl}
+            src={previewPhoto}
             resizedPhotoHeight={resizedPhotoHeight}
             resizedPhotoWidth={resizedPhotoWidth}
           />
@@ -227,6 +236,7 @@ export const UploadPost = () => {
           <PhotoInput
             type={"file"}
             {...register("photo", { required: true, onChange: clearPostError })}
+            onChange={onChangePhoto}
           />
         </Container>
         <Container>

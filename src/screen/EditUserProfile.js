@@ -85,7 +85,6 @@ export const EditUserProfile = () => {
   const [selectedAvatar, setSeletectedAvatar] = useState("");
   const { data: userData } = useUser();
   const navigate = useNavigate();
-  console.log(userData);
 
   const {
     register,

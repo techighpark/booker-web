@@ -1,12 +1,11 @@
 import {
   ApolloClient,
   ApolloLink,
-  createHttpLink,
   InMemoryCache,
   makeVar,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-import { relayStylePagination } from "@apollo/client/utilities";
+// import { relayStylePagination } from "@apollo/client/utilities";
 import { createUploadLink } from "apollo-upload-client";
 
 const THEME_MODE = "themeMode";
@@ -47,9 +46,9 @@ export const popUpPost = (popUpId, id) => {
   localStorage.setItem("POPUP_ID", popUpId);
 };
 
-const httpLink = createHttpLink({
-  uri: "http://localhost:4000/graphql",
-});
+// const httpLink = createHttpLink({
+//   uri: process.env.NODE_ENV ==="production" ? "https://high-booker-db.herokuapp.com/graphql" : "http://localhost:4000/graphql"
+// });
 
 const authLink = setContext((_, { headers }) => {
   return {
@@ -58,7 +57,10 @@ const authLink = setContext((_, { headers }) => {
 });
 
 const uploadLink = createUploadLink({
-  uri: "http://localhost:4000/graphql",
+  uri:
+    process.env.NODE_ENV === "production"
+      ? "https://high-booker-db.herokuapp.com/graphql"
+      : "http://localhost:4000/graphql",
 });
 
 export const client = new ApolloClient({
