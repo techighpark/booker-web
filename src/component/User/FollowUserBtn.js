@@ -15,8 +15,8 @@ const FollowBtn = styled.div`
     props.isFollowing
       ? `1px solid ${props.theme.button.activeBorderColor}`
       : ""};
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 12px;
+  font-weight: 400;
   cursor: pointer;
   transition: all 0.3s ease;
   &:hover {

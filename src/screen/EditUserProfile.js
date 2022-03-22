@@ -10,6 +10,14 @@ import { CAvatar } from "../component/Shared/CAvatar";
 import { CUsername } from "../component/Shared/CUsername";
 import { useNavigate } from "react-router-dom";
 import { PageTitle } from "../component/Shared/PageTitle";
+import {
+  SAuthInput,
+  SAuthInputContainer,
+  SInputText,
+  SInputWrapper,
+} from "../component/Auth/SAuthInput";
+import { PageHeaderContainer } from "../component/Shared/PageHeader";
+import { UsernameContainer } from "../component/Shared/ProfileUsername";
 
 const SEE_PROFILE_QUERY = gql`
   query seeProfile($username: String!) {
@@ -42,41 +50,19 @@ const EDIT_PROFILE_MUTATION = gql`
     }
   }
 `;
-const UserContainer = styled.div`
-  width: 400px;
+const HeaderContainer = styled(PageHeaderContainer)`
+  justify-content: center;
+`;
+const EditUsernameContainer = styled(UsernameContainer)`
   display: flex;
   align-items: center;
-`;
-const UsernameContainer = styled.div`
-  width: 50%;
-  text-align: center;
-`;
-
-const InputContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* height: 400px; */
-  width: 400px;
-  margin-top: 50px;
+  width: auto;
+  height: 100%;
+  margin-left: 50px;
+  margin-right: 30px;
+  /* border: 1px solid; */
 `;
 
-const InputWrapper = styled.div`
-  margin-bottom: 30px;
-`;
-const Input = styled.input`
-  width: 100%;
-  border: 1px solid gray;
-  border-radius: 10px;
-  padding: 10px 20px;
-  box-sizing: border-box;
-  margin-top: 10px;
-`;
-const InputText = styled.span`
-  font-weight: 700;
-  font-size: 16px;
-  display: inline-block;
-  margin-right: 20px;
-`;
 const EditErrorMessage = styled(ErrorMessage).attrs({ as: "span" })`
   text-align: left;
 `;
@@ -92,7 +78,6 @@ export const EditUserProfile = () => {
     handleSubmit,
     setError,
     clearErrors,
-    getValues,
     formState: { errors },
   } = useForm({
     mode: "onSubmit",
@@ -101,7 +86,6 @@ export const EditUserProfile = () => {
     variables: { username: userData?.me?.username },
   });
   const editProfileUpdate = (cache, result) => {
-    const { avatar } = getValues();
     const {
       data: {
         editProfile: { ok },
@@ -155,74 +139,78 @@ export const EditUserProfile = () => {
     <LayoutP>
       <PageTitle title={loading ? "Loading..." : `Edit Profile`} />
 
-      <UserContainer>
+      <HeaderContainer>
         {selectedAvatar ? (
           <CAvatar url={selectedAvatar} avatarSize={"lg"} />
         ) : (
           <CAvatar url={queryData?.seeProfile?.avatar} avatarSize={"lg"} />
         )}
-        <UsernameContainer>
+        <EditUsernameContainer>
           <CUsername
             username={queryData?.seeProfile?.username}
             usernameSize={"lg"}
           />
-        </UsernameContainer>
-      </UserContainer>
+        </EditUsernameContainer>
+      </HeaderContainer>
       <form onSubmit={handleSubmit(onValidSubmit)}>
-        <InputContainer>
-          <InputWrapper>
-            <InputText>Profile Photo</InputText>
-            <Input type="file" {...register("avatar")} onChange={onChange} />
-          </InputWrapper>
-          <InputWrapper>
-            <InputText>Username</InputText>
-            <Input
+        <SAuthInputContainer>
+          <SInputWrapper>
+            <SInputText>Profile Photo</SInputText>
+            <SAuthInput
+              type="file"
+              {...register("avatar")}
+              onChange={onChange}
+            />
+          </SInputWrapper>
+          <SInputWrapper>
+            <SInputText>Username</SInputText>
+            <SAuthInput
               type={"text"}
               placeholder={"Username"}
               {...register("username", { required: true })}
-            ></Input>
-          </InputWrapper>
-          <InputWrapper>
-            <InputText>Email</InputText>
-            <Input
+            ></SAuthInput>
+          </SInputWrapper>
+          <SInputWrapper>
+            <SInputText>Email</SInputText>
+            <SAuthInput
               type={"text"}
               placeholder={"Email"}
               {...register("email", { required: true })}
-            ></Input>
-          </InputWrapper>
-          <InputWrapper>
-            <InputText>Bio</InputText>
-            <Input
+            ></SAuthInput>
+          </SInputWrapper>
+          <SInputWrapper>
+            <SInputText>Bio</SInputText>
+            <SAuthInput
               type={"text"}
               placeholder={"Bio"}
               {...register("bio")}
-            ></Input>
-          </InputWrapper>
-          <InputWrapper>
-            <InputText>Password</InputText>
-            <Input
+            ></SAuthInput>
+          </SInputWrapper>
+          <SInputWrapper>
+            <SInputText>Password</SInputText>
+            <SAuthInput
               type={"password"}
               placeholder={"Password"}
               {...register("password", {
                 onChange: clearPasswordErrors,
               })}
-            ></Input>
-          </InputWrapper>
-          <InputWrapper>
-            <InputText>Password Check</InputText>
+            ></SAuthInput>
+          </SInputWrapper>
+          <SInputWrapper>
+            <SInputText>Password Check</SInputText>
             <EditErrorMessage hasError={Boolean(errors?.password)}>
               {errors?.password?.message}
             </EditErrorMessage>
-            <Input
+            <SAuthInput
               type={"password"}
               placeholder={"Password Check"}
               {...register("passwordCheck", {
                 onChange: clearPasswordErrors,
               })}
-            ></Input>
-          </InputWrapper>
+            ></SAuthInput>
+          </SInputWrapper>
           <SSubmitBtn type={"submit"} value={"Eidt Profile"} />
-        </InputContainer>
+        </SAuthInputContainer>
       </form>
     </LayoutP>
   );

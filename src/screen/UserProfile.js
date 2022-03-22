@@ -11,6 +11,8 @@ import { CUsername } from "../component/Shared/CUsername";
 import { CTabButton } from "../component/User/CTabButton";
 import { FollowUSerBtn } from "../component/User/FollowUserBtn";
 import { PageTitle } from "../component/Shared/PageTitle";
+import { PageHeaderContainer } from "../component/Shared/PageHeader";
+import { UsernameContainer } from "../component/Shared/ProfileUsername";
 
 const SEE_PROFILE_QUERY = gql`
   query seeProfile($username: String!) {
@@ -60,13 +62,6 @@ const SEE_PROFILE_QUERY = gql`
   }
 `;
 
-const ProfileHeader = styled.div`
-  display: flex;
-  justify-content: start;
-  width: 800px;
-  margin-top: 50px;
-`;
-
 const Column = styled.div`
   margin-left: 70px;
   width: 400px;
@@ -75,10 +70,7 @@ const Row = styled.div`
   width: 100%;
   display: flex;
 `;
-const UsernameContainer = styled.div`
-  width: 50%;
-  margin-bottom: 40px;
-`;
+
 const UserBio = styled.div`
   margin-top: 20px;
   font-size: 12px;
@@ -102,7 +94,6 @@ const Text = styled.span`
 
 const ProfileBody = styled.div`
   width: 90%;
-  margin-top: 80px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -129,8 +120,8 @@ const EditProfileBtn = styled.div`
   text-align: center;
   background-color: ${props => props.theme.link.accent.fontColor};
   color: ${props => props.theme.primary.fontColor};
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 400;
   cursor: pointer;
   &:hover {
     background-color: ${props => props.theme.link.accent.hoverFontColor};
@@ -162,7 +153,7 @@ export const UserProfile = () => {
           loading ? "Loading..." : `${data?.seeProfile?.username}'s Profile`
         }
       />
-      <ProfileHeader>
+      <PageHeaderContainer>
         <Link to={"/account/edit"}>
           <CAvatar url={data?.seeProfile?.avatar} avatarSize={"lg"} />
         </Link>
@@ -217,7 +208,7 @@ export const UserProfile = () => {
             <UserBio>{data?.seeProfile?.bio}</UserBio>
           </Row>
         </Column>
-      </ProfileHeader>
+      </PageHeaderContainer>
       <ProfileBody>
         <TabButtons>
           <CTabButton activeTab={POST_TAB} title={"Post"} />

@@ -17,6 +17,10 @@ import { Hashtag } from "./screen/Hashtag";
 import { Recommend } from "./screen/Recommend";
 import { HelmetProvider } from "react-helmet-async";
 import { Admin } from "./screen/Admin";
+import { BookRegister } from "./screen/BookRegister";
+import { AuthorRegister } from "./screen/AuthorRegister";
+import { AuthorList } from "./screen/AuthorList";
+import { BookList } from "./screen/BookList";
 
 function App() {
   const themeMode = useReactiveVar(themeModeVar);
@@ -38,6 +42,10 @@ function App() {
             <Route path="/hashtags/:hashtag" element={<Hashtag />} />
             <Route path="/recommend" element={<Recommend />} />
             <Route path="/admin" element={<Admin />} />
+            <Route path="/admin/book" element={<BookRegister />} />
+            <Route path="/admin/author" element={<AuthorRegister />} />
+            <Route path="/admin/author_list" element={<AuthorList />} />
+            <Route path="/admin/book_list" element={<BookList />} />
             {/* <Route path="/following" element={<Following />} /> */}
           </Routes>
         </BrowserRouter>

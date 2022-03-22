@@ -22,8 +22,8 @@ const CommentCaption = styled.div`
     font-size: 12px;
     font-weight: 300;
     &:hover {
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 12px;
+      font-weight: 400;
       text-decoration: underline;
     }
   }

@@ -60,7 +60,7 @@ const CaptionInput = styled.input`
   }
 `;
 
-const BookInput = styled.select`
+export const BookInput = styled.select`
   width: 100%;
   height: 20px;
   font-size: 12px;
