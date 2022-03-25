@@ -13,7 +13,6 @@ import { SearchResult } from "./screen/SearchResult";
 import { EditUserProfile } from "./screen/EditUserProfile";
 import { UploadPost } from "./screen/UploadPost";
 import { Hashtag } from "./screen/Hashtag";
-// import { Following } from "./screen/Following";
 import { Recommend } from "./screen/Recommend";
 import { HelmetProvider } from "react-helmet-async";
 import { Admin } from "./screen/Admin";

@@ -1,6 +1,7 @@
 import { gql, useMutation } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import { AdminLayout } from "../component/Admin/AdminLayout";
@@ -64,10 +65,16 @@ export const BookRegister = () => {
   const [resizedPhotoHeight, setPhotoHeight] = useState();
   const [resizedPhotoWidth, setPhotoWidth] = useState();
   const { data: authorListData } = useAuthorList();
+  const navigate = useNavigate();
 
   const { register, handleSubmit } = useForm();
   const onCompleted = data => {
-    console.log(data);
+    const {
+      registerBook: { ok },
+    } = data;
+    if (ok) {
+      navigate("/admin");
+    }
   };
   const [registerAuthorMutation] = useMutation(REGISTER_BOOK_MUTATION, {
     onCompleted,

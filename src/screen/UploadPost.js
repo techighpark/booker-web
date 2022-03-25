@@ -15,11 +15,23 @@ import { STitle } from "../component/Shared/STitle";
 const ContainerName = styled.div`
   width: 150px;
 `;
+export const Description = styled.div`
+  color: ${props => props.theme.secondary.fontColor};
+`;
 
 const Container = styled.div`
   display: flex;
   margin: 50px 0px;
   width: 100%;
+  justify-content: center;
+`;
+const BottomContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 50px 0px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 const PhotoPreview = styled.div`
   width: 600px;
@@ -67,7 +79,8 @@ export const BookInput = styled.select`
   text-align: center;
   background-color: ${props => props.theme.primary.bgColor};
   color: ${props => props.theme.secondary.fontColor};
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 0.5px solid
+    ${props => (props.hasError ? "red" : "rgba(255, 255, 255, 0.2)")};
   &:focus {
     border: 1px solid orange;
     box-sizing: border-box;
@@ -100,6 +113,7 @@ export const UploadPost = () => {
   const [previewPhoto, setPrieviewPhoto] = useState();
   const [resizedPhotoHeight, setPhotoHeight] = useState();
   const [resizedPhotoWidth, setPhotoWidth] = useState();
+  const [isSelect, setIsSelect] = useState(false);
   const { data: userProfile } = useUserProfile();
   const navigate = useNavigate();
   const { data: userData } = useUser();
@@ -114,6 +128,9 @@ export const UploadPost = () => {
   });
   const onValidSubmit = data => {
     const { photo, caption, bookId } = data;
+    if (bookId === "--- Select Book ---") {
+      setError("select", { message: "Select book please" });
+    }
     uploadPostMutation({
       variables: { photo: photo[0], caption, bookId: parseInt(bookId) },
     });
@@ -161,6 +178,14 @@ export const UploadPost = () => {
     } = data;
     seeAuthorQuery({ variables: { fullName: value } });
   };
+  const onSelectedBook = data => {
+    const {
+      target: { selectedIndex },
+    } = data;
+    if (selectedIndex !== 0) {
+      setIsSelect(true);
+    }
+  };
 
   const setPhoto = new Image();
   setPhoto.src = previewPhoto;
@@ -186,7 +211,7 @@ export const UploadPost = () => {
   };
 
   const clearPostError = () => {
-    clearErrors("result");
+    clearErrors(["result", "select"]);
   };
 
   const onChangePhoto = e => {
@@ -207,14 +232,16 @@ export const UploadPost = () => {
     setPrieviewPhoto(url);
     return () => URL.revokeObjectURL(url);
   }, [selectedPhoto]);
-
+  console.log(isValid);
+  console.log(errors);
   return (
     <LayoutP>
       <PageTitle title={loading ? "Loading..." : "Create new Post"} />
       <STitle>Upload Your Post</STitle>
-      <ErrorMessage hasError={errors?.result}>
-        {errors?.result?.message}
-      </ErrorMessage>
+      <Description>
+        Upload photo related with your following authors and books only once
+        possible.
+      </Description>
       <form onSubmit={handleSubmit(onValidSubmit)}>
         <PhotoPreview>
           <Photo
@@ -241,8 +268,14 @@ export const UploadPost = () => {
         </Container>
         <Container>
           <ContainerName>Author Select</ContainerName>
-          <BookInput onChange={onSelectedAuthor}>
-            <option>--Please choose an author--</option>
+          <BookInput
+            {...register("author", {
+              required: true,
+            })}
+            onChange={onSelectedAuthor}
+            onClick={clearPostError}
+          >
+            <option>--- Select Book ---</option>
             {userProfile?.seeProfile?.followingAuthor?.map(author => (
               <option key={author.id} value={author.fullName}>
                 {author.fullName}
@@ -254,12 +287,12 @@ export const UploadPost = () => {
           <Container>
             <ContainerName>Book Select</ContainerName>
             <BookInput
-              {...register("bookId", {
-                required: true,
-                onChange: clearPostError,
-              })}
+              {...register("bookId")}
+              hasError={errors?.select || errors?.result}
+              onChange={onSelectedBook}
+              onClick={clearPostError}
             >
-              <option>--Please choose an book--</option>
+              <option>--- Select Book ---</option>
               {authorData?.seeAuthor?.books?.map(book => (
                 <option key={book.id} value={book.id}>
                   {book.title}
@@ -268,11 +301,19 @@ export const UploadPost = () => {
             </BookInput>
           </Container>
         ) : null}
-        <SSubmitBtn
-          type={"submit"}
-          value={"Upload"}
-          disabled={!isValid || loading}
-        />
+        <BottomContainer>
+          <ErrorMessage hasError={errors?.result}>
+            {errors?.result?.message}
+          </ErrorMessage>
+          <ErrorMessage hasError={errors?.select}>
+            {errors?.select?.message}
+          </ErrorMessage>
+          <SSubmitBtn
+            type={"submit"}
+            value={"Upload"}
+            disabled={!isValid || !isSelect}
+          />
+        </BottomContainer>
       </form>
     </LayoutP>
   );

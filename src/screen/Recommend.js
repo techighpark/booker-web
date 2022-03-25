@@ -11,6 +11,7 @@ import { faUser, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { PageTitle } from "../component/Shared/PageTitle";
 import { STitle } from "../component/Shared/STitle";
+import { Description } from "./UploadPost";
 
 const RECOMMEND_QUERY = gql`
   query recommend {
@@ -113,6 +114,7 @@ export const Recommend = () => {
     <LayoutP>
       <PageTitle title={loading ? "Loading..." : `Recommendation`} />
       <STitle>Recommendation</STitle>
+      <Description>Based on your Author, Book, User</Description>
       <Grid>
         {randomRecommend?.map(item => {
           return (

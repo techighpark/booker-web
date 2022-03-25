@@ -1,6 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { AdminLayout } from "../component/Admin/AdminLayout";
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  height: 100vh;
+`;
 const Column = styled.div``;
 
 const RegisterBtn = styled.div`
@@ -23,22 +29,24 @@ export const Admin = () => {
   };
   return (
     <AdminLayout>
-      <Column>
-        <RegisterBtn Author onClick={() => onRegisterClick("author")}>
-          Author register
-        </RegisterBtn>
-        <RegisterBtn onClick={() => onRegisterClick("book")}>
-          Book register
-        </RegisterBtn>
-      </Column>
-      <Column>
-        <RegisterBtn Author onClick={() => onRegisterClick("author_list")}>
-          Author list
-        </RegisterBtn>
-        <RegisterBtn onClick={() => onRegisterClick("book_list")}>
-          Book list
-        </RegisterBtn>
-      </Column>
+      <Container>
+        <Column>
+          <RegisterBtn Author onClick={() => onRegisterClick("author")}>
+            Author register
+          </RegisterBtn>
+          <RegisterBtn onClick={() => onRegisterClick("book")}>
+            Book register
+          </RegisterBtn>
+        </Column>
+        <Column>
+          <RegisterBtn Author onClick={() => onRegisterClick("author_list")}>
+            Author list
+          </RegisterBtn>
+          <RegisterBtn onClick={() => onRegisterClick("book_list")}>
+            Book list
+          </RegisterBtn>
+        </Column>
+      </Container>
     </AdminLayout>
   );
 };
