@@ -26,7 +26,7 @@ function App() {
   const isLoggedIn = useReactiveVar(loggedInVar);
   return (
     <HelmetProvider>
-      <ThemeProvider theme={themeMode ? darkMode : lightMode}>
+      <ThemeProvider theme={themeMode ? lightMode : darkMode}>
         <GlobalStyle />
         <BrowserRouter>
           <Routes>
